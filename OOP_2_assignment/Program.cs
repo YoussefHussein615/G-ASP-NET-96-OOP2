@@ -46,7 +46,116 @@
         */
         static void Main(string[] args)
         {
-            
+            DeliveryCenter center = new DeliveryCenter();
+
+            Console.Write("Enter Delivery Center Name: ");
+            center.CenterName = Console.ReadLine();
+            Console.WriteLine();
+
+            // ---- Standard Shipment ----
+            Console.WriteLine("Enter Standard Shipment Data");
+            Console.Write("TrackingCode: ");
+            string sTrackingCode = Console.ReadLine();
+            Console.Write("Description: ");
+            string sDescription = Console.ReadLine();
+            Console.Write("Weight in KG: ");
+            decimal sWeight = decimal.Parse(Console.ReadLine());
+            Console.Write("DeliveryFee: ");
+            decimal sFee = decimal.Parse(Console.ReadLine());
+            Console.Write("City: ");
+            string sCity = Console.ReadLine();
+            Console.Write("Street: ");
+            string sStreet = Console.ReadLine();
+            Console.Write("Building Number: ");
+            int sBuilding = int.Parse(Console.ReadLine());
+
+            DeliveryAddress sAddress = new DeliveryAddress(sCity, sStreet, sBuilding);
+            StandardShipment standardShipment = new StandardShipment(sTrackingCode, sDescription, sWeight, sFee, sAddress);
+            bool added1 = center.AddShipment(standardShipment);
+            Console.WriteLine(added1 ? "Shipment Added Successfully." : "Delivery center is full.");
+            Console.WriteLine();
+
+            // ---- Express Shipment ----
+            Console.WriteLine("Enter Express Shipment Data");
+            Console.Write("TrackingCode: ");
+            string eTrackingCode = Console.ReadLine();
+            Console.Write("Description: ");
+            string eDescription = Console.ReadLine();
+            Console.Write("Weight: ");
+            decimal eWeight = decimal.Parse(Console.ReadLine());
+            Console.Write("DeliveryFee: ");
+            decimal eFee = decimal.Parse(Console.ReadLine());
+            Console.Write("City: ");
+            string eCity = Console.ReadLine();
+            Console.Write("Street: ");
+            string eStreet = Console.ReadLine();
+            Console.Write("Building Number: ");
+            int eBuilding = int.Parse(Console.ReadLine());
+            Console.Write("ExtraFee: ");
+            decimal extraFee = decimal.Parse(Console.ReadLine());
+
+            DeliveryAddress eAddress = new DeliveryAddress(eCity, eStreet, eBuilding);
+            ExpressShipment expressShipment = new ExpressShipment(eTrackingCode, eDescription, eWeight, eFee, eAddress, extraFee);
+            bool added2 = center.AddShipment(expressShipment);
+            Console.WriteLine(added2 ? "Shipment Added Successfully." : "Delivery center is full.");
+            Console.WriteLine();
+
+            // ---- International Shipment ----
+            Console.WriteLine("Enter International Shipment Data");
+            Console.Write("TrackingCode: ");
+            string iTrackingCode = Console.ReadLine();
+            Console.Write("Description: ");
+            string iDescription = Console.ReadLine();
+            Console.Write("Weight: ");
+            decimal iWeight = decimal.Parse(Console.ReadLine());
+            Console.Write("DeliveryFee: ");
+            decimal iFee = decimal.Parse(Console.ReadLine());
+            Console.Write("City: ");
+            string iCity = Console.ReadLine();
+            Console.Write("Street: ");
+            string iStreet = Console.ReadLine();
+            Console.Write("Building Number: ");
+            int iBuilding = int.Parse(Console.ReadLine());
+            Console.Write("Destination Country: ");
+            string destinationCountry = Console.ReadLine();
+            Console.Write("Customs Fee: ");
+            decimal customsFee = decimal.Parse(Console.ReadLine());
+
+            DeliveryAddress iAddress = new DeliveryAddress(iCity, iStreet, iBuilding);
+            InternationalShipment internationalShipment = new InternationalShipment(iTrackingCode, iDescription, iWeight, iFee, iAddress, destinationCountry, customsFee);
+            bool added3 = center.AddShipment(internationalShipment);
+            Console.WriteLine(added3 ? "Shipment Added Successfully." : "Delivery center is full.");
+            Console.WriteLine();
+
+            // ---- Print all shipments ----
+            center.PrintAllShipments("Delivery Center : " + center.CenterName);
+
+            // ---- Search by tracking code ----
+            Console.Write("Enter Tracking Code to Search: ");
+            string searchCode = Console.ReadLine();
+            Shipment found = center[searchCode];
+            if (found != null)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Shipment Found:");
+                found.PrintShipment();
+            }
+            else
+            {
+                Console.WriteLine("Shipment not found.");
+            }
+            Console.WriteLine();
+
+            // ---- Remove a shipment ----
+            Console.Write("Enter Tracking Code to Remove: ");
+            string removeCode = Console.ReadLine();
+            bool removed = center.RemoveShipment(removeCode);
+            Console.WriteLine();
+            Console.WriteLine(removed ? "Shipment Removed Successfully." : "Shipment not found.");
+            Console.WriteLine();
+
+            // ---- Print remaining shipments ----
+            center.PrintAllShipments("Remaining Shipments");
         }
     }
 }
